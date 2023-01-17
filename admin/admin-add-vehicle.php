@@ -138,7 +138,7 @@
 
             <div class="form-group col-md-6">
               <label for="exampleFormControlSelect1">Vehicle Category</label>
-              <input type="text" name="v_category" list="v_category" />
+              <input type="text" name="v_category" class="form-control" list="v_category" />
               <datalist id="v_category">
                 <option>Bus</option>
                 <option>Sedan</option>
