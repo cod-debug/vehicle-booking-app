@@ -7,7 +7,7 @@
   if(isset($_POST['cancel_booking']))
     {
         $tid = $_POST['trans_id'];
-        $update = "UPDATE tms_transactions SET `trans_payment_status` = 'cancelled'";
+        $update = "UPDATE tms_transactions SET `trans_payment_status` = 'cancelled' WHERE `trans_id` = $tid";
         $stmt = $mysqli->prepare($update);
         $stmt->execute();
 
@@ -187,7 +187,7 @@
                             
                             <div class="form-group col-md-4">
                                 <label for="bookingHrs">Booking Hours: </label>
-                                <select class="form-control" name="booking_hrs" id="bookingHrs">
+                                <select class="form-control" name="booking_hrs" id="bookingHrs" disabled>
                                     <option value="12">12 Hrs</option>
                                     <option value="24">24 Hrs</option>
                                 </select>

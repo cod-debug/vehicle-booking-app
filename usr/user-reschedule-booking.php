@@ -4,53 +4,30 @@
   include('vendor/inc/checklogin.php');
   check_login();
   $aid=$_SESSION['u_id'];
-  $trans_id = $_GET['t_id'];
   //Add Booking
-  
-  $select_transaction = "SELECT * FROM `tms_transactions` WHERE `trans_id` = '$trans_id'";
-  $selected_transaction = $mysqli->prepare($select_transaction);
-  $selected_transaction->execute();
-  $res = $selected_transaction->get_result();
-  $transaction = $res->fetch_object();
-
   if(isset($_POST['book_vehicle']))
     {
             $u_id = $_SESSION['u_id'];
-            extract($_POST);
-            $select_duplicate_trans = "SELECT * FROM `tms_transactions` 
-            WHERE date(`trans_booking_pickup_date`) BETWEEN  date('$booking_date_start') AND date('$booking_date_end')";
-            print_r($select_duplicate_trans);
-            $selected_duplicate_trans = $mysqli->prepare($select_duplicate_trans);
-            $selected_duplicate_trans->execute();
-            $duplicate = $selected_duplicate_trans->get_result();
+            $trans_id = $_GET['t_id'];
 
-            print_r($duplicate);
-            //$u_fname=$_POST['u_fname'];
-            //$u_lname = $_POST['u_lname'];
-            //$u_phone=$_POST['u_phone'];
-            //$u_addr=$_POST['u_addr'];
+            extract($_POST);
             
-            /*
-                $u_car_type = $_POST['u_car_type'];
-                $u_car_regno  = $_POST['u_car_regno'];
-                $u_car_bookdate = $_POST['u_car_bookdate'];
-                $u_car_book_status  = $_POST['u_car_book_status'];
-                $query="update tms_user set u_car_type=?, u_car_bookdate=?, u_car_regno=?, u_car_book_status=? where u_id=?";
-                $stmt = $mysqli->prepare($query);
-                $rc=$stmt->bind_param('ssssi', $u_car_type, $u_car_bookdate, $u_car_regno, $u_car_book_status, $u_id);
-                $stmt->execute();
-                    if($stmt)
-                    {
-                        $succ = "Booking Subitted";
-                    }
-                    else 
-                    {
-                        $err = "Please Try Again Later";
-                    }
-                }
-            */
-            
-            // upload proof of payment
+            $booking_date_start = date_format(date_create($booking_date_start), "Y-m-d H:i:s");
+            $booking_date_end = date_format(date_create($booking_date_end), "Y-m-d H:i:s");
+
+            $select_duplicate = "SELECT * FROM `tms_transactions` 
+            WHERE DATE(`booking_pickup_date`) >= DATE('$booking_date_start') 
+            AND DATE(`booking_due_date`) <= DATE('$booking_date_end')
+            AND `trans_id` != '$trans_id'";
+            $duplicate = $mysqli->prepare($select_duplicate);
+            $duplicate->execute();
+            $dup_res = $duplicate->get_result();
+            if($dup_res->num_rows > 0){
+                $err = "Duplicate Error";
+            } else {
+                $update_sched = "UPDATE ";
+            }
+
     }
 
 ?>
@@ -194,30 +171,30 @@
                 <small class="text-muted">Booking Details: </small>
             <hr>
             </div>
-            <div class="form-group col-md-12 d-none">
+            <div class="form-group col-md-4 d-none">
                 <label for="bookingHrs">Booking Hours: </label>
                 <select class="form-control" name="booking_hrs" id="bookingHrs">
                     <option value="12">12 Hrs</option>
                     <option value="24">24 Hrs</option>
                 </select>
             </div>
+
             <div class="form-group col-md-6">
                 <label for="bookingDate">Pickup Date &amp; Time: </label>
-                <input type="datetime-local" class="form-control" id="bookingDate" value="<?php echo date_format(date_create($transaction->booking_pickup_date), "Y-m-d\TH:i") ?>" name="booking_date_start">
-                
+                <input type="datetime-local" class="form-control" id="bookingDate"  name="booking_date_start">
             </div>
-
 
             <div class="form-group col-md-6">
                 <label for="bookingDate">Due Date: </label>
-                <input type="datetime-local" class="form-control" id="bookingDateEnd" value="<?php echo date_format(date_create($transaction->booking_due_date), "Y-m-d\TH:i") ?>" readonly  name="booking_date_end">
+                <input type="datetime-local" class="form-control" id="bookingDateEnd" readonly  name="booking_date_end">
             </div>
 
             <div class="col-md-12">
                 <p class="text-muted"><b><i class="fa fa-exclamation-triangle"></i> Note: </b> Additional charges/fees are effective if vehicle is not returned on time.</p>
             </div>
+
             <div class="col-md-12 mt-3">
-                <button type="submit" name="book_vehicle" class="btn btn-success"><i class="fa fa-check-circle"></i> Confirm Reschedule</button>      
+                <button type="submit" name="book_vehicle" class="btn btn-success"><i class="fa fa-check-circle"></i> Confirm Booking</button>      
                 <a name="book_vehicle" class="btn btn-outline-danger" href="usr-book-vehicle.php"><i class="fa fa-times-circle"></i> Cancel</a>         
             </div>
   
@@ -282,7 +259,7 @@
     });
     
     $("#bookingDate").attr("min", formatDateTimeInput(new Date()));
-    // $("#bookingDate").val(formatDateTimeInput(new Date()));
+    $("#bookingDate").val(formatDateTimeInput(new Date()));
 
     // DEFAULT TOTAL VALUE
     $("#totalAmount").val($(`#per12Hrs`).val());
@@ -290,12 +267,10 @@
         setDateTimeEnd();
         $("#totalAmount").val($(`#per${e['target']['value']}Hrs`).val());
     });
-    // setDateTimeEnd();
+    setDateTimeEnd();
 
     function setDateTimeEnd(){
         let hoursToAdd = $("#bookingHrs").val();
-        console.log(hoursToAdd);
-        // return false;
         let timeEnd = addHoursToDate(new Date($("#bookingDate").val()), hoursToAdd);
 
         $("#bookingDateEnd").val(formatDateTimeInput(timeEnd));

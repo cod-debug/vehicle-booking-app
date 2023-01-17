@@ -101,6 +101,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">First Name</label>
                 <input type="text" readonly value="<?php echo $row->u_fname;?>" required class="form-control" id="exampleInputEmail1" name="u_fname">
+                <input type="text" readonly value="<?php echo $row->trans_id;?>" required class="form-control" id="exampleInputEmail1" name="trans_id">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Last Name</label>
