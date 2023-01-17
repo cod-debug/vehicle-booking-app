@@ -13,6 +13,7 @@
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
           <h6 class="dropdown-header">Lessors:</h6>
           <a class="dropdown-item" href="admin-add-user.php">Add</a>
+          <a class="dropdown-item" href="admin-manage-user-new.php">New Registrations</a>
           <a class="dropdown-item" href="admin-view-user.php">View</a>
           <a class="dropdown-item" href="admin-manage-user.php">Manage</a>
         </div>

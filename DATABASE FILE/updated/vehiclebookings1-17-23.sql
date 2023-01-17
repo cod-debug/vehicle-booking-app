@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2022 at 11:01 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 5.6.40
+-- Generation Time: Jan 17, 2023 at 08:52 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -39,17 +38,21 @@ CREATE TABLE `tms_admin` (
   `payment_status` varchar(255) NOT NULL,
   `has_sent_notif` varchar(5) NOT NULL DEFAULT 'no',
   `status` varchar(10) NOT NULL,
+  `is_new` tinyint(1) NOT NULL,
   `user_business_permit` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `gcash_num` varchar(50) NOT NULL,
+  `bpi_account` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tms_admin`
 --
 
-INSERT INTO `tms_admin` (`a_id`, `a_name`, `a_email`, `user_type`, `a_pwd`, `address`, `contact_num`, `payment_status`, `has_sent_notif`, `status`, `user_business_permit`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'roy.duenas.sdtpnoli@gmail.com', 2, 'password', '', '', '', 'yes', 'active', '', '2022-11-03 14:35:48', '2022-11-03 14:35:48');
+INSERT INTO `tms_admin` (`a_id`, `a_name`, `a_email`, `user_type`, `a_pwd`, `address`, `contact_num`, `payment_status`, `has_sent_notif`, `status`, `is_new`, `user_business_permit`, `gcash_num`, `bpi_account`, `created_at`, `updated_at`) VALUES
+(1, 'Super Admin', 'roy.duenas.sdtpnoli@gmail.com', 2, 'password', '', '', '', 'yes', 'active', 0, '', '', '', '2022-11-03 14:35:48', '2022-11-03 14:35:48'),
+(32, 'Roy Duenas', 'quensed@gmail.com', 1, 'password', 'Manalad Ilog Negros Occidental', '09123456789', 'approved', 'no', 'active', 0, 'back.jpg', '09123456789', '229381234123', '2023-01-11 04:42:07', '2023-01-11 04:42:07');
 
 -- --------------------------------------------------------
 
@@ -62,7 +65,7 @@ CREATE TABLE `tms_branch` (
   `branch_name` varchar(255) NOT NULL,
   `branch_address` text NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tms_branch`
@@ -82,17 +85,10 @@ CREATE TABLE `tms_feedback` (
   `f_id` int(20) NOT NULL,
   `f_uname` varchar(200) NOT NULL,
   `f_content` longtext NOT NULL,
+  `lessor_name` varchar(100) NOT NULL,
+  `car_name` varchar(100) NOT NULL,
   `f_status` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tms_feedback`
---
-
-INSERT INTO `tms_feedback` (`f_id`, `f_uname`, `f_content`, `f_status`) VALUES
-(1, 'Elliot Gape', 'This is a demo feedback text. This is a demo feedback text. This is a demo feedback text.', 'Published'),
-(2, 'Mark L. Anderson', 'Sample Feedback Text for testing! Sample Feedback Text for testing! Sample Feedback Text for testing!', 'Published'),
-(3, 'Liam Moore ', 'test number 3', '');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -103,7 +99,7 @@ INSERT INTO `tms_feedback` (`f_id`, `f_uname`, `f_content`, `f_status`) VALUES
 CREATE TABLE `tms_pwd_resets` (
   `r_id` int(20) NOT NULL,
   `r_email` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tms_pwd_resets`
@@ -125,8 +121,8 @@ CREATE TABLE `tms_syslogs` (
   `u_ip` varbinary(200) NOT NULL,
   `u_city` varchar(200) NOT NULL,
   `u_country` varchar(200) NOT NULL,
-  `u_logintime` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `u_logintime` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -149,10 +145,10 @@ CREATE TABLE `tms_transactions` (
   `valid_id` text NOT NULL,
   `trans_disapprove_remarks` text NOT NULL,
   `parent_trans_id` int(11) NOT NULL,
-  `trans_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `trans_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
   `created_by` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -175,7 +171,7 @@ CREATE TABLE `tms_user` (
   `u_car_regno` varchar(200) NOT NULL,
   `u_car_bookdate` varchar(200) NOT NULL,
   `u_car_book_status` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tms_user`
@@ -205,15 +201,15 @@ CREATE TABLE `tms_vehicle` (
   `v_status` varchar(200) NOT NULL,
   `v_per_12hrs` double(11,2) NOT NULL,
   `v_per_24hrs` double(11,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tms_vehicle`
 --
 
 INSERT INTO `tms_vehicle` (`v_id`, `lessor_id`, `v_name`, `v_reg_no`, `v_pass_no`, `v_driver`, `v_category`, `v_dpic`, `v_registration`, `v_status`, `v_per_12hrs`, `v_per_24hrs`) VALUES
-(9, 4, 'New With Registration', '1233312', '24', 'Demo User', 'Sedan', '312-3124884_report-abuse-seven-deadly-sins-profile.png', 'back.jpg', 'Available', 2500.00, 4500.00),
-(10, 4, 'SAMPLE VEHICLE', '123321', '8', 'Demo User', 'Van', '3865569.jpg', 'back.jpg', 'Available', 1500.00, 2500.00);
+(9, 32, 'New With Registration', '1233312', '24', 'Demo User', 'Sedan', '312-3124884_report-abuse-seven-deadly-sins-profile.png', 'back.jpg', 'Available', 2500.00, 4500.00),
+(10, 32, 'SAMPLE VEHICLE', '123321', '8', 'Demo User', 'Van', '3865569.jpg', 'back.jpg', 'Available', 1500.00, 2500.00);
 
 --
 -- Indexes for dumped tables
@@ -275,7 +271,7 @@ ALTER TABLE `tms_vehicle`
 -- AUTO_INCREMENT for table `tms_admin`
 --
 ALTER TABLE `tms_admin`
-  MODIFY `a_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `a_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `tms_branch`
@@ -287,7 +283,7 @@ ALTER TABLE `tms_branch`
 -- AUTO_INCREMENT for table `tms_feedback`
 --
 ALTER TABLE `tms_feedback`
-  MODIFY `f_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `f_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tms_pwd_resets`
@@ -305,7 +301,7 @@ ALTER TABLE `tms_syslogs`
 -- AUTO_INCREMENT for table `tms_transactions`
 --
 ALTER TABLE `tms_transactions`
-  MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `tms_user`

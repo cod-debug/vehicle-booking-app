@@ -56,18 +56,40 @@
             $trans_itenerary = $_POST['trans_itenerary'];
             $trans_proof_of_payment = $file_name;
 
-            $insert = "INSERT INTO `tms_transactions` 
-            (trans_type, trans_amount, trans_payment_status, vehicle_id, user_id, booking_pickup_date, booking_due_date, trans_proof_of_payment, created_by, trans_itenerary, valid_id) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $mysqli->prepare($insert);
-            $rc = $stmt->bind_param('sssiissssss', 
-            $trans_type, $trans_amount, $trans_payment_status, $vehicle_id, $u_id, $booking_pickup_date, $booking_due_date, $trans_proof_of_payment, $u_id, $trans_itenerary, $file_name_valid_id);
+            
+            $u_id = $_SESSION['u_id'];
 
-            if($stmt->execute()){
-                $succ = "Booking Submitted";
-            }
-            else {
-                $err = "Please Try Again Later";
+            extract($_POST);
+            
+            $booking_date_start = date_format(date_create($booking_pickup_date), "Y-m-d H:i:s");
+            $booking_date_end = date_format(date_create($booking_due_date), "Y-m-d H:i:s");
+
+            $select_duplicate = "SELECT * FROM `tms_transactions` 
+            WHERE DATE(`booking_pickup_date`) >= DATE('$booking_date_start') 
+            AND DATE(`booking_due_date`) <= DATE('$booking_date_end')
+            AND `vehicle_id` = $vehicle_id
+            AND `trans_payment_status` != 'cancelled'";
+
+            $duplicate = $mysqli->prepare($select_duplicate);
+            $duplicate->execute();
+            $dup_res = $duplicate->get_result();
+
+            if($dup_res->num_rows > 0){
+                $err = "There is car is unavailable in this date: $booking_date_start";
+            } else {
+                // $insert = "INSERT INTO `tms_transactions` 
+                // (trans_type, trans_amount, trans_payment_status, vehicle_id, user_id, booking_pickup_date, booking_due_date, trans_proof_of_payment, created_by, trans_itenerary, valid_id) 
+                // VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                // $stmt = $mysqli->prepare($insert);
+                // $rc = $stmt->bind_param('sssiissssss', 
+                // $trans_type, $trans_amount, $trans_payment_status, $vehicle_id, $u_id, $booking_pickup_date, $booking_due_date, $trans_proof_of_payment, $u_id, $trans_itenerary, $file_name_valid_id);
+    
+                // if($stmt->execute()){
+                //     $succ = "Booking Submitted";
+                // }
+                // else {
+                //     $err = "Please Try Again Later";
+                // }
             }
     }
 
@@ -128,7 +150,7 @@
         <script>
                     setTimeout(function () 
                     { 
-                        swal("Failed!","<?php echo $err;?>!","error");
+                        swal("Failed!","<?php echo $err;?>","error");
                     },
                         100);
         </script>

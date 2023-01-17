@@ -32,9 +32,11 @@
             $bpi_account=$_POST['bpi_account'];
             $user_type= "1";
             $u_category=$_POST['u_category'];
-            $query="INSERT INTO tms_admin (a_name, contact_num, address, a_email, a_pwd, user_type, user_business_permit, gcash_num, bpi_account) VALUES(?,?,?,?,?,?,?,?,?)";
+            $is_new = true;
+            
+            $query="INSERT INTO tms_admin (a_name, contact_num, address, a_email, a_pwd, user_type, user_business_permit, gcash_num, bpi_account, is_new) VALUES(?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
-            $rc=$stmt->bind_param("sssssssss",$a_name, $u_phone, $u_addr, $u_email, $u_pwd, $user_type, $business_permit_file_name, $gcash_num, $bpi_account);
+            $rc=$stmt->bind_param("ssssssssss",$a_name, $u_phone, $u_addr, $u_email, $u_pwd, $user_type, $business_permit_file_name, $gcash_num, $bpi_account, $is_new);
 
             $stmt->execute();
                 if($stmt)

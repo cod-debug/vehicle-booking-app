@@ -18,14 +18,25 @@
             $select_duplicate = "SELECT * FROM `tms_transactions` 
             WHERE DATE(`booking_pickup_date`) >= DATE('$booking_date_start') 
             AND DATE(`booking_due_date`) <= DATE('$booking_date_end')
-            AND `trans_id` != '$trans_id'";
+            AND `trans_id` != '$trans_id'
+            AND `trans_payment_status`= 'pending'";
             $duplicate = $mysqli->prepare($select_duplicate);
             $duplicate->execute();
             $dup_res = $duplicate->get_result();
+            
             if($dup_res->num_rows > 0){
                 $err = "Duplicate Error";
             } else {
-                $update_sched = "UPDATE ";
+                $update_sched = "UPDATE `tms_transactions` 
+                SET `booking_pickup_date` = '$booking_date_start',
+                `booking_due_date` = '$booking_date_end'";
+                $updated = $mysqli->prepare($update_sched);
+                
+                if($updated->execute()){
+                    $succ = "Successfully updated schedule";
+                } else {
+                    $err = "Something went wrong during re-schedule";
+                }
             }
 
     }
