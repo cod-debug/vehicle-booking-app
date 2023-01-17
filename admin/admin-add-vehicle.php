@@ -138,13 +138,20 @@
 
             <div class="form-group col-md-6">
               <label for="exampleFormControlSelect1">Vehicle Category</label>
-              <select class="form-control" name="v_category" id="exampleFormControlSelect1">
+              <input type="text" name="v_category" list="v_category" />
+              <datalist id="v_category">
+                <option>Bus</option>
+                <option>Sedan</option>
+                <option>SUV</option>
+                <option>Van</option>
+              </datalist>
+              <!-- <select class="form-control" name="v_category" id="exampleFormControlSelect1">
                 <option>Bus</option>
                 <option>Sedan</option>
                 <option>SUV</option>
                 <option>Van</option>
 
-              </select>
+              </select> -->
             </div>
 
             <div class="form-group col-md-6" >

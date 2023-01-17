@@ -120,13 +120,6 @@
           </div>
           <div class="card-body">
             <?php if($res->num_rows > 0): ?>
-              <?php 
-                $select_client = "SELECT * FROM `tms_user` WHERE `u_id` == $row->user_id"; 
-                $select_client = $mysqli->prepare($select_client); 
-                $selected_client->execute();
-                $select_client->get_result();
-                $selected_client->fetch_object();
-              ?>
             <div class="report-tbl-div">
               <table class="table">
                 <thead>

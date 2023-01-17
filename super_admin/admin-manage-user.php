@@ -76,7 +76,7 @@
                     <td><?php echo $row->payment_status ? $row->payment_status : 'Pending';?></td>
                     <td>
                       <?php if($row->payment_status == 'approved'): ?>
-                      <a href="admin-manage-single-usr.php?a_id=<?php echo $row->a_id;?>" class="badge badge-primary"><i class="fa fa-user-edit"></i> Update</a>
+                      <!-- <a href="admin-manage-single-usr.php?a_id=<?php echo $row->a_id;?>" class="badge badge-primary"><i class="fa fa-user-edit"></i> Update</a> -->
                       <?php endif; ?>
                       <?php if($row->a_id != 1): ?>
                         <?php if($row->payment_status != 'approved'):?>
