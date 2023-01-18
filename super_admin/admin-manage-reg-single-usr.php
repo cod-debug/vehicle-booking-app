@@ -67,7 +67,7 @@
 
             $update_lessor = "UPDATE `tms_admin` 
                 SET `payment_status` = ?,
-                `status` = ?
+                `status` = ?,
                 `is_new` = ?
                 WHERE `a_id` = ?";
             $u_trans->execute();
