@@ -73,7 +73,7 @@
             $u_trans->execute();
 
             $u_lessor = $mysqli->prepare($update_lessor);
-            $ul = $u_lessor->bind_param('ssi',  $payment_status, $active, $is_new, $aid);
+            $ul = $u_lessor->bind_param('sssi',  $payment_status, $active, $is_new, $aid);
             $u_lessor->execute();
 
             if($u_lessor && $u_trans){
