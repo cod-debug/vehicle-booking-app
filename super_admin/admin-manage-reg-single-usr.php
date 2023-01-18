@@ -61,16 +61,19 @@
             $payment_status = "approved";
             $active = "active";
 
+            $is_new = false;
             $ur = $u_trans->bind_param('si', $payment_status, $aid);
+
 
             $update_lessor = "UPDATE `tms_admin` 
                 SET `payment_status` = ?,
                 `status` = ?
+                `is_new` = ?
                 WHERE `a_id` = ?";
             $u_trans->execute();
 
             $u_lessor = $mysqli->prepare($update_lessor);
-            $ul = $u_lessor->bind_param('ssi',  $payment_status, $active, $aid);
+            $ul = $u_lessor->bind_param('ssi',  $payment_status, $active, $is_new, $aid);
             $u_lessor->execute();
 
             if($u_lessor && $u_trans){
