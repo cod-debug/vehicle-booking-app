@@ -86,7 +86,7 @@
   <div class="container">
     <div class="card card-register mx-auto mt-5 mb-5">
              <div class="card-header">
-                <i class="fa fa-exclamation-triangle"></i> <b> Be a Lessor! </b> Subscribe for only Php 4,000.00 a month.
+                <i class="fa fa-exclamation-triangle"></i> <b> Welcome to COCHE!</b>
              </div>
       <!--<div class="card-header">Create An Account With Us</div> -->
       <div class="card-body">
