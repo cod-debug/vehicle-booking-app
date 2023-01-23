@@ -20,11 +20,12 @@
             $v_dpic=$_FILES["v_dpic"]["name"];
             $v_registration=$_FILES["v_registration"]["name"];
 
-            $duplicate_v_reg_no = "SELECT COUNT(v_reg_no) FROM `tms_vehicle` WHERE `v_reg_no` = '$v_reg_no'";
+            $duplicate_v_reg_no = "SELECT * FROM `tms_vehicle` WHERE `v_reg_no` = '$v_reg_no'";
             $trap_dup = $mysqli->prepare($duplicate_v_reg_no);
             $exe = $trap_dup->execute();
             $res = $trap_dup->get_result();
 
+            print_r($res);
             if($res->num_rows == 0){
               move_uploaded_file($_FILES["v_dpic"]["tmp_name"],"../vendor/img/".$_FILES["v_dpic"]["name"]);
               move_uploaded_file($_FILES["v_registration"]["tmp_name"],"../vendor/img/".$_FILES["v_registration"]["name"]);
