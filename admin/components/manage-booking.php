@@ -6,14 +6,18 @@
           <div class="card-body">
             <div class="table-responsive">
               <?php 
+                  $lessor_id = $_SESSION['a_id'];
                   if(isset($start) && isset($end)){
                       $is_report = true;
                       $ret="SELECT * FROM tms_transactions 
                       INNER JOIN tms_user
                       INNER JOIN tms_vehicle
+                      INNER JOIN tms_admin
                       WHERE tms_transactions.trans_type = 'booking'
                       AND tms_user.u_id = tms_transactions.user_id
                       AND tms_transactions.vehicle_id = tms_vehicle.v_id
+                      AND tms_vehicle.lessor_id = tms_admin.a_id
+                      AND tms_admin.a_id = '$lessor_id'
                       AND date(tms_transactions.trans_created_at) >= date('$start') 
                       AND date(tms_transactions.trans_created_at) <= date('$end')";
                   } else {
@@ -21,8 +25,11 @@
                       $ret="SELECT * FROM tms_transactions 
                       INNER JOIN tms_user
                       INNER JOIN tms_vehicle
+                      INNER JOIN tms_admin
                       WHERE tms_transactions.trans_type = 'booking'
                       AND tms_user.u_id = tms_transactions.user_id
+                      AND tms_vehicle.lessor_id = tms_admin.a_id
+                      AND tms_admin.a_id = '$lessor_id'
                       AND tms_transactions.vehicle_id = tms_vehicle.v_id
                       AND tms_transactions.parent_trans_id = 0";
                   } //get all bookings
