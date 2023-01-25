@@ -210,6 +210,8 @@
             <?php if($row->v_registration): ?>
                 <div class="form-group col-md-12">
                     <a href="../vendor/img/<?php echo $row->v_registration ?>" target="_blank"><i class="fa fa-file"></i> See Vehicle Registration</a>
+                    <br />
+                    <a href="../uploads/drivers_license/<?php echo $row->drivers_license ?>" target="_blank"><i class="fa fa-id-card"></i> See Driver's License</a>
                 </div>
                 <?php else:?>
                     
