@@ -75,7 +75,7 @@
     
     <?php
 
-      $ret="SELECT * FROM tms_vehicle  ORDER BY RAND() LIMIT 10 "; //get all feedbacks
+      $ret="SELECT * FROM tms_vehicle INNER JOIN `tms_admin` ON `tms_admin`.`a_id` = `tms_vehicle`.`lessor_id`  ORDER BY RAND() LIMIT 10 "; //get all feedbacks
       $stmt= $mysqli->prepare($ret) ;
       $stmt->execute() ;//ok
       $res=$stmt->get_result();
@@ -111,6 +111,10 @@
                         <tr>
                             <td><b>Registration No. : </b></td>
                             <td><?php echo $row->v_reg_no ?></td>
+                        </tr>
+                        <tr>
+                            <td><b>Lessor : </b></td>
+                            <td><?php echo $row->a_name ?></td>
                         </tr>
                     </thead>
                 </table>
