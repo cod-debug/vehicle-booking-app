@@ -63,11 +63,11 @@
           <span>Generate Report</span></a>
       </li> 
       
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="admin-pwd-resets.php">
           <i class="fas fa-fw fa-key"></i>
           <span>Password Resets</span></a>
-      </li>
+      </li> -->
       
       <li class="nav-item">
         <a class="nav-link" href="admin-view-syslogs.php">
