@@ -207,6 +207,15 @@
                             <?php else: ?>
                                 <p class="alert alert-info">This application was <b><?php echo $row->trans_payment_status ?></b>.</p>
                             <?php endif; ?>
+                            <?php if($row->trans_disapprove_remarks): ?>
+                                <div class="col-sm-12">
+                                    <strong>REMARKS:</strong>
+                                    <br />
+                                    <p class="text-danger border border-muted p-3">
+                                        <?php echo $row->trans_disapprove_remarks ?>
+                                    </p>
+                                </div>
+                            <?php endif; ?>
                         </form>
                     </div>
                 </div>
