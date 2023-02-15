@@ -94,7 +94,7 @@
                 </thead>
                 <?php
 
-                    $ret="SELECT * FROM tms_vehicle "; 
+                    $ret="SELECT * FROM `tms_vehicle` INNER JOIN `tms_admin` WHERE `tms_vehicle`.`lessor_id` = `tms_admin`.`a_id` AND `tms_vehicle`.`lessor_id` = $aid"; 
                     $stmt= $mysqli->prepare($ret) ;
                     $stmt->execute() ;//ok
                     $res=$stmt->get_result();
