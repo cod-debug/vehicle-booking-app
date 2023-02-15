@@ -47,6 +47,7 @@
                     <th>Name</th>
                     <th>Registration Number</th>
                     <th>Registration Picture</th>
+                    <th>Lessor</th>
                     <th>Passengers</th>
                     <th>Category</th>
                     <th>Status</th>
@@ -54,7 +55,7 @@
                 </thead>
                 <?php
 
-                    $ret="SELECT * FROM tms_vehicle "; 
+                    $ret="SELECT * FROM `tms_vehicle` INNER JOIN `tms_admin` WHERE `tms_vehicle`.`lessor_id` = `tms_admin`.`a_id`"; 
                     $stmt= $mysqli->prepare($ret) ;
                     $stmt->execute() ;//ok
                     $res=$stmt->get_result();
@@ -72,6 +73,7 @@
                       <a href="../vendor/img/<?php echo $row->v_registration;?>" target="_blank">View Registration</a>
                       <?php endif; ?>
                     </td>
+                    <td><?php echo $row->a_name;?></td>
                     <td><?php echo $row->v_pass_no;?></td>
                     <td><?php echo $row->v_category;?></td>
                     <td><?php if($row->v_status == "Available"){ echo '<span class = "badge badge-success">'.$row->v_status.'</span>'; } else { echo '<span class = "badge badge-danger">'.$row->v_status.'</span>';}?></td>
