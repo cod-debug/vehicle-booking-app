@@ -14,7 +14,7 @@
             $v_category=$_POST['v_category'];
             $v_pass_no=$_POST['v_pass_no'];
             $v_status=$_POST['v_status'];
-            // $v_driver=$_POST['v_driver'];
+            $v_driver="N/A";
             $v_per_12hrs=$_POST['v_per_12hrs'];
             $v_per_24hrs=$_POST['v_per_24hrs'];
             $v_dpic=$_FILES["v_dpic"]["name"];
@@ -25,16 +25,16 @@
             $exe = $trap_dup->execute();
             $res = $trap_dup->get_result();
 
-            print_r($res);
+            // print_r($res->num_rows);
             if($res->num_rows == 0){
               move_uploaded_file($_FILES["v_dpic"]["tmp_name"],"../vendor/img/".$_FILES["v_dpic"]["name"]);
               move_uploaded_file($_FILES["v_registration"]["tmp_name"],"../vendor/img/".$_FILES["v_registration"]["name"]);
   
               $query="insert into tms_vehicle (v_name, v_pass_no, v_reg_no, v_driver, v_category, v_dpic, v_status, v_per_12hrs, v_per_24hrs, v_registration, lessor_id) values(?,?,?,?,?,?,?,?,?,?,?)";
               $stmt = $mysqli->prepare($query);
-              $rc=$stmt->bind_param('sssssssiisi', $v_name, $v_pass_no, $v_reg_no, $v_driver, $v_category, $v_dpic, $v_status, $v_per_12hrs, $v_per_24hrs, $v_registration, $aid);
-              $stmt->execute();
-                if($stmt)
+              $stmt->bind_param('sssssssiisi', $v_name, $v_pass_no, $v_reg_no, $v_driver, $v_category, $v_dpic, $v_status, $v_per_12hrs, $v_per_24hrs, $v_registration, $aid);
+              
+                if($stmt->execute())
                 {
                     $succ = "Vehicle Added";
                 }
