@@ -5,7 +5,7 @@ use Twilio\Rest\Client;
 function sendSms($message){
     // Your Account SID and Auth Token from twilio.com/console
     $account_sid = 'ACb51841051872a3dc405c16caef236791';
-    $auth_token = '26b513a87b623c936339559cc276c25c';
+    $auth_token = '642aac032a182a90046c39f24c2a7f93';
     // In production, these should be environment variables. E.g.:
     // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
     

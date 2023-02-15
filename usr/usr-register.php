@@ -27,7 +27,7 @@
     $stmt->execute();
         if($stmt)
         {
-            $succ = "Account Created Proceed To Log In";
+            $succ = "Check OTP";
         }
         else 
         {
@@ -88,7 +88,7 @@
                     setTimeout(function () 
                     { 
                         swal("Success!","<?php echo $succ;?>!","success").then(() => {
-                          window.location.href="confirm-otp.php?email=<?php echo $u_email ?>";
+                          window.location.href="user-confirm-otp.php?email=<?php echo $u_email ?>";
                         });
                     },
                         100);
