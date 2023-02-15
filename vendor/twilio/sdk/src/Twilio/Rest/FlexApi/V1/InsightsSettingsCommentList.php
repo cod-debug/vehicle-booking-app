@@ -10,14 +10,17 @@
 namespace Twilio\Rest\FlexApi\V1;
 
 use Twilio\Exceptions\TwilioException;
-use Twilio\InstanceContext;
+use Twilio\ListResource;
 use Twilio\Options;
 use Twilio\Values;
 use Twilio\Version;
 
-class GoodDataContext extends InstanceContext {
+/**
+ * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
+ */
+class InsightsSettingsCommentList extends ListResource {
     /**
-     * Initialize the GoodDataContext
+     * Construct the InsightsSettingsCommentList
      *
      * @param Version $version Version that contains the resource
      */
@@ -27,24 +30,25 @@ class GoodDataContext extends InstanceContext {
         // Path Solution
         $this->solution = [];
 
-        $this->uri = '/Accounts/GoodData';
+        $this->uri = '/Insights/QM/Settings/CommentTags';
     }
 
     /**
-     * Create the GoodDataInstance
+     * Fetch the InsightsSettingsCommentInstance
      *
      * @param array|Options $options Optional Arguments
-     * @return GoodDataInstance Created GoodDataInstance
+     * @return InsightsSettingsCommentInstance Fetched
+     *                                         InsightsSettingsCommentInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function create(array $options = []): GoodDataInstance {
+    public function fetch(array $options = []): InsightsSettingsCommentInstance {
         $options = new Values($options);
 
         $headers = Values::of(['Token' => $options['token'], ]);
 
-        $payload = $this->version->create('POST', $this->uri, [], [], $headers);
+        $payload = $this->version->fetch('GET', $this->uri, [], [], $headers);
 
-        return new GoodDataInstance($this->version, $payload);
+        return new InsightsSettingsCommentInstance($this->version, $payload);
     }
 
     /**
@@ -53,10 +57,6 @@ class GoodDataContext extends InstanceContext {
      * @return string Machine friendly representation
      */
     public function __toString(): string {
-        $context = [];
-        foreach ($this->solution as $key => $value) {
-            $context[] = "$key=$value";
-        }
-        return '[Twilio.FlexApi.V1.GoodDataContext ' . \implode(' ', $context) . ']';
+        return '[Twilio.FlexApi.V1.InsightsSettingsCommentList]';
     }
 }

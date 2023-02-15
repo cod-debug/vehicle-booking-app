@@ -12,17 +12,20 @@ namespace Twilio\Rest\FlexApi\V1;
 use Twilio\Options;
 use Twilio\Values;
 
-abstract class UserRolesOptions {
+/**
+ * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
+ */
+abstract class InsightsSegmentsOptions {
     /**
      * @param string $token The Token HTTP request header
-     * @return FetchUserRolesOptions Options builder
+     * @return FetchInsightsSegmentsOptions Options builder
      */
-    public static function fetch(string $token = Values::NONE): FetchUserRolesOptions {
-        return new FetchUserRolesOptions($token);
+    public static function fetch(string $token = Values::NONE): FetchInsightsSegmentsOptions {
+        return new FetchInsightsSegmentsOptions($token);
     }
 }
 
-class FetchUserRolesOptions extends Options {
+class FetchInsightsSegmentsOptions extends Options {
     /**
      * @param string $token The Token HTTP request header
      */
@@ -48,6 +51,6 @@ class FetchUserRolesOptions extends Options {
      */
     public function __toString(): string {
         $options = \http_build_query(Values::of($this->options), '', ' ');
-        return '[Twilio.FlexApi.V1.FetchUserRolesOptions ' . $options . ']';
+        return '[Twilio.FlexApi.V1.FetchInsightsSegmentsOptions ' . $options . ']';
     }
 }

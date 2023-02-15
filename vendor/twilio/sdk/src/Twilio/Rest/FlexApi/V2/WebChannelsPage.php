@@ -7,13 +7,13 @@
  * /       /
  */
 
-namespace Twilio\Rest\FlexApi\V1;
+namespace Twilio\Rest\FlexApi\V2;
 
 use Twilio\Http\Response;
 use Twilio\Page;
 use Twilio\Version;
 
-class UserRolesPage extends Page {
+class WebChannelsPage extends Page {
     /**
      * @param Version $version Version that contains the resource
      * @param Response $response Response from the API
@@ -28,10 +28,10 @@ class UserRolesPage extends Page {
 
     /**
      * @param array $payload Payload response from the API
-     * @return UserRolesInstance \Twilio\Rest\FlexApi\V1\UserRolesInstance
+     * @return WebChannelsInstance \Twilio\Rest\FlexApi\V2\WebChannelsInstance
      */
-    public function buildInstance(array $payload): UserRolesInstance {
-        return new UserRolesInstance($this->version, $payload);
+    public function buildInstance(array $payload): WebChannelsInstance {
+        return new WebChannelsInstance($this->version, $payload);
     }
 
     /**
@@ -40,6 +40,6 @@ class UserRolesPage extends Page {
      * @return string Machine friendly representation
      */
     public function __toString(): string {
-        return '[Twilio.FlexApi.V1.UserRolesPage]';
+        return '[Twilio.FlexApi.V2.WebChannelsPage]';
     }
 }

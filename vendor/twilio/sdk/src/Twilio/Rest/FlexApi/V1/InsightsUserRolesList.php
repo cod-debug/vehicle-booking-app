@@ -12,9 +12,12 @@ namespace Twilio\Rest\FlexApi\V1;
 use Twilio\ListResource;
 use Twilio\Version;
 
-class UserRolesList extends ListResource {
+/**
+ * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
+ */
+class InsightsUserRolesList extends ListResource {
     /**
-     * Construct the UserRolesList
+     * Construct the InsightsUserRolesList
      *
      * @param Version $version Version that contains the resource
      */
@@ -26,10 +29,10 @@ class UserRolesList extends ListResource {
     }
 
     /**
-     * Constructs a UserRolesContext
+     * Constructs a InsightsUserRolesContext
      */
-    public function getContext(): UserRolesContext {
-        return new UserRolesContext($this->version);
+    public function getContext(): InsightsUserRolesContext {
+        return new InsightsUserRolesContext($this->version);
     }
 
     /**
@@ -38,6 +41,6 @@ class UserRolesList extends ListResource {
      * @return string Machine friendly representation
      */
     public function __toString(): string {
-        return '[Twilio.FlexApi.V1.UserRolesList]';
+        return '[Twilio.FlexApi.V1.InsightsUserRolesList]';
     }
 }

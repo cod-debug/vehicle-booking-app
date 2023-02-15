@@ -7,21 +7,24 @@
  * /       /
  */
 
-namespace Twilio\Rest\FlexApi\V1;
+namespace Twilio\Rest\Oauth\V1;
 
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceResource;
-use Twilio\Options;
 use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string[] $roles
- * @property string $url
+ * @property string $deviceCode
+ * @property string $userCode
+ * @property string $verificationUri
+ * @property string $verificationUriComplete
+ * @property string $expiresIn
+ * @property int $interval
  */
-class UserRolesInstance extends InstanceResource {
+class DeviceCodeInstance extends InstanceResource {
     /**
-     * Initialize the UserRolesInstance
+     * Initialize the DeviceCodeInstance
      *
      * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
@@ -31,36 +34,15 @@ class UserRolesInstance extends InstanceResource {
 
         // Marshaled Properties
         $this->properties = [
-            'roles' => Values::array_get($payload, 'roles'),
-            'url' => Values::array_get($payload, 'url'),
+            'deviceCode' => Values::array_get($payload, 'device_code'),
+            'userCode' => Values::array_get($payload, 'user_code'),
+            'verificationUri' => Values::array_get($payload, 'verification_uri'),
+            'verificationUriComplete' => Values::array_get($payload, 'verification_uri_complete'),
+            'expiresIn' => Values::array_get($payload, 'expires_in'),
+            'interval' => Values::array_get($payload, 'interval'),
         ];
 
         $this->solution = [];
-    }
-
-    /**
-     * Generate an instance context for the instance, the context is capable of
-     * performing various actions.  All instance actions are proxied to the context
-     *
-     * @return UserRolesContext Context for this UserRolesInstance
-     */
-    protected function proxy(): UserRolesContext {
-        if (!$this->context) {
-            $this->context = new UserRolesContext($this->version);
-        }
-
-        return $this->context;
-    }
-
-    /**
-     * Fetch the UserRolesInstance
-     *
-     * @param array|Options $options Optional Arguments
-     * @return UserRolesInstance Fetched UserRolesInstance
-     * @throws TwilioException When an HTTP error occurs.
-     */
-    public function fetch(array $options = []): UserRolesInstance {
-        return $this->proxy()->fetch($options);
     }
 
     /**
@@ -89,10 +71,6 @@ class UserRolesInstance extends InstanceResource {
      * @return string Machine friendly representation
      */
     public function __toString(): string {
-        $context = [];
-        foreach ($this->solution as $key => $value) {
-            $context[] = "$key=$value";
-        }
-        return '[Twilio.FlexApi.V1.UserRolesInstance ' . \implode(' ', $context) . ']';
+        return '[Twilio.Oauth.V1.DeviceCodeInstance]';
     }
 }

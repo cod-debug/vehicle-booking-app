@@ -12,9 +12,12 @@ namespace Twilio\Rest\FlexApi\V1;
 use Twilio\ListResource;
 use Twilio\Version;
 
-class GoodDataList extends ListResource {
+/**
+ * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
+ */
+class InsightsSessionList extends ListResource {
     /**
-     * Construct the GoodDataList
+     * Construct the InsightsSessionList
      *
      * @param Version $version Version that contains the resource
      */
@@ -26,10 +29,10 @@ class GoodDataList extends ListResource {
     }
 
     /**
-     * Constructs a GoodDataContext
+     * Constructs a InsightsSessionContext
      */
-    public function getContext(): GoodDataContext {
-        return new GoodDataContext($this->version);
+    public function getContext(): InsightsSessionContext {
+        return new InsightsSessionContext($this->version);
     }
 
     /**
@@ -38,6 +41,6 @@ class GoodDataList extends ListResource {
      * @return string Machine friendly representation
      */
     public function __toString(): string {
-        return '[Twilio.FlexApi.V1.GoodDataList]';
+        return '[Twilio.FlexApi.V1.InsightsSessionList]';
     }
 }

@@ -10,14 +10,17 @@
 namespace Twilio\Rest\FlexApi\V1;
 
 use Twilio\Exceptions\TwilioException;
-use Twilio\InstanceContext;
+use Twilio\ListResource;
 use Twilio\Options;
 use Twilio\Values;
 use Twilio\Version;
 
-class UserRolesContext extends InstanceContext {
+/**
+ * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
+ */
+class InsightsSettingsAnswerSetsList extends ListResource {
     /**
-     * Initialize the UserRolesContext
+     * Construct the InsightsSettingsAnswerSetsList
      *
      * @param Version $version Version that contains the resource
      */
@@ -27,24 +30,25 @@ class UserRolesContext extends InstanceContext {
         // Path Solution
         $this->solution = [];
 
-        $this->uri = '/Accounts/UserRoles';
+        $this->uri = '/Insights/QM/Settings/AnswerSets';
     }
 
     /**
-     * Fetch the UserRolesInstance
+     * Fetch the InsightsSettingsAnswerSetsInstance
      *
      * @param array|Options $options Optional Arguments
-     * @return UserRolesInstance Fetched UserRolesInstance
+     * @return InsightsSettingsAnswerSetsInstance Fetched
+     *                                            InsightsSettingsAnswerSetsInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch(array $options = []): UserRolesInstance {
+    public function fetch(array $options = []): InsightsSettingsAnswerSetsInstance {
         $options = new Values($options);
 
         $headers = Values::of(['Token' => $options['token'], ]);
 
         $payload = $this->version->fetch('GET', $this->uri, [], [], $headers);
 
-        return new UserRolesInstance($this->version, $payload);
+        return new InsightsSettingsAnswerSetsInstance($this->version, $payload);
     }
 
     /**
@@ -53,10 +57,6 @@ class UserRolesContext extends InstanceContext {
      * @return string Machine friendly representation
      */
     public function __toString(): string {
-        $context = [];
-        foreach ($this->solution as $key => $value) {
-            $context[] = "$key=$value";
-        }
-        return '[Twilio.FlexApi.V1.UserRolesContext ' . \implode(' ', $context) . ']';
+        return '[Twilio.FlexApi.V1.InsightsSettingsAnswerSetsList]';
     }
 }

@@ -16,15 +16,14 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string $workspaceId
- * @property string $sessionExpiry
- * @property string $sessionId
- * @property string $gdBaseUrl
+ * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
+ *
+ * @property string[] $roles
  * @property string $url
  */
-class GoodDataInstance extends InstanceResource {
+class InsightsUserRolesInstance extends InstanceResource {
     /**
-     * Initialize the GoodDataInstance
+     * Initialize the InsightsUserRolesInstance
      *
      * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
@@ -34,10 +33,7 @@ class GoodDataInstance extends InstanceResource {
 
         // Marshaled Properties
         $this->properties = [
-            'workspaceId' => Values::array_get($payload, 'workspace_id'),
-            'sessionExpiry' => Values::array_get($payload, 'session_expiry'),
-            'sessionId' => Values::array_get($payload, 'session_id'),
-            'gdBaseUrl' => Values::array_get($payload, 'gd_base_url'),
+            'roles' => Values::array_get($payload, 'roles'),
             'url' => Values::array_get($payload, 'url'),
         ];
 
@@ -48,25 +44,25 @@ class GoodDataInstance extends InstanceResource {
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
      *
-     * @return GoodDataContext Context for this GoodDataInstance
+     * @return InsightsUserRolesContext Context for this InsightsUserRolesInstance
      */
-    protected function proxy(): GoodDataContext {
+    protected function proxy(): InsightsUserRolesContext {
         if (!$this->context) {
-            $this->context = new GoodDataContext($this->version);
+            $this->context = new InsightsUserRolesContext($this->version);
         }
 
         return $this->context;
     }
 
     /**
-     * Create the GoodDataInstance
+     * Fetch the InsightsUserRolesInstance
      *
      * @param array|Options $options Optional Arguments
-     * @return GoodDataInstance Created GoodDataInstance
+     * @return InsightsUserRolesInstance Fetched InsightsUserRolesInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function create(array $options = []): GoodDataInstance {
-        return $this->proxy()->create($options);
+    public function fetch(array $options = []): InsightsUserRolesInstance {
+        return $this->proxy()->fetch($options);
     }
 
     /**
@@ -99,6 +95,6 @@ class GoodDataInstance extends InstanceResource {
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.FlexApi.V1.GoodDataInstance ' . \implode(' ', $context) . ']';
+        return '[Twilio.FlexApi.V1.InsightsUserRolesInstance ' . \implode(' ', $context) . ']';
     }
 }

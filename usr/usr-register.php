@@ -20,7 +20,7 @@
     $u_email=$_POST['u_email'];
     $u_pwd=$_POST['u_pwd'];
     $u_category=$_POST['u_category'];
-    $u_status = "active";
+    $u_status = "otp";
     $query="insert into tms_user (u_fname, u_lname, u_phone, u_addr, u_category, u_email, u_pwd, u_status) values(?,?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($query);
     $rc=$stmt->bind_param('ssssssss', $u_fname,  $u_lname, $u_phone, $u_addr, $u_category, $u_email, $u_pwd, $u_status);
@@ -87,7 +87,9 @@
         <script>
                     setTimeout(function () 
                     { 
-                        swal("Success!","<?php echo $succ;?>!","success");
+                        swal("Success!","<?php echo $succ;?>!","success").then(() => {
+                          window.location.href="confirm-otp.php?email=<?php echo $u_email ?>";
+                        });
                     },
                         100);
         </script>
