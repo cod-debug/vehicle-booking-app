@@ -83,6 +83,15 @@
         </script>
 
         <?php } ?>
+        
+        
+        
+        <?php
+          $select = "SELECT * FROM `tms_terms` WHERE `terms_id` = 1";
+          $selected = $mysqli->prepare($select);
+          $selected->execute();
+          $res=$selected->get_result()->fetch_object();
+        ?>
   <div class="container">
     <div class="card card-register mx-auto mt-5 mb-5">
              <div class="card-header">
@@ -93,7 +102,7 @@
         <h1>Terms &amp; Policies</h1>
         <div class="card my-3">
         <div class="card-body">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p><?php echo $res->terms_desc ?></p>
         </div>
         </div>
         <div class="text-center">
