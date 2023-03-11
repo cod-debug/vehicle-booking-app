@@ -36,4 +36,10 @@
           <span>Generate Reports</span>
         </a>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="admin-edit-policy.php" >
+          <i class="fas fa-fw fa-file-word"></i>
+          <span>Terms &amp; Policy</span>
+        </a>
+      </li>
     </ul>

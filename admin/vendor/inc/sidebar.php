@@ -69,9 +69,9 @@
           <span>Password Resets</span></a>
       </li> -->
       
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="admin-view-syslogs.php">
           <i class="fas fa-fw fa fa-history"></i>
           <span>System Logs</span></a>
-      </li> 
+      </li>  -->
     </ul>
