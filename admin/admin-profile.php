@@ -13,19 +13,20 @@
       $u_pwd=$_POST['a_pwd'];
      // $u_category=$_POST['u_category'];
       $old_password = $_POST['old_password'];
-      $query="update tms_admin set a_pwd=? where a_id=? AND `a_pwd`=?";
-      $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sis',  $u_pwd, $u_id, $old_password);
-      $stmt->execute();
 
-      $check = "SELECT * FROM `tms_user` WHERE  u_id='$u_id' AND `u_pwd`='$old_password'";
+      $check = "SELECT * FROM `tms_admin` WHERE  a_id='$u_id' AND `a_pwd`='$old_password'";
       $check_stmt = $mysqli->prepare($check);
       $check_stmt->execute();
       $check_result = $check_stmt->get_result();
 
       if($check_result->num_rows > 0){
+        $query="update tms_admin set a_pwd=? where a_id=? AND `a_pwd`=?";
+        $stmt = $mysqli->prepare($query);
+        $rc=$stmt->bind_param('sis',  $u_pwd, $u_id, $old_password);
+        $stmt->execute();
         if($stmt)
         {
+
             $succ = "Password Updated";
         }
         else 
