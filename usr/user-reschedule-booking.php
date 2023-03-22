@@ -29,7 +29,8 @@
             } else {
                 $update_sched = "UPDATE `tms_transactions` 
                 SET `booking_pickup_date` = '$booking_date_start',
-                `booking_due_date` = '$booking_date_end'";
+                `booking_due_date` = '$booking_date_end'
+                WHERE `trans_id` = '$trans_id'";
                 $updated = $mysqli->prepare($update_sched);
                 
                 if($updated->execute()){

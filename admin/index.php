@@ -6,25 +6,29 @@
     {
       $a_email=$_POST['a_email'];
       $a_pwd=($_POST['a_pwd']);//
-      $stmt=$mysqli->prepare("SELECT a_email, a_pwd, a_id, user_type, payment_status FROM tms_admin WHERE a_email=? and a_pwd=? ");//sql to log in user
+      $stmt=$mysqli->prepare("SELECT a_email, a_pwd, a_id, user_type, payment_status, `status` FROM tms_admin WHERE a_email=? and a_pwd=? ");//sql to log in user
       $stmt->bind_param('ss',$a_email,$a_pwd);//bind fetched parameters
       $stmt->execute();//execute bind
-      $stmt->bind_result($a_email,$a_pwd,$a_id, $user_type, $payment_status);//bind result
+      $stmt->bind_result($a_email,$a_pwd,$a_id, $user_type, $payment_status, $status);//bind result
       $rs=$stmt->fetch();
       $_SESSION['a_id']=$a_id;//assaign session to admin id
       //$uip=$_SERVER['REMOTE_ADDR'];
       //$ldate=date('d/m/Y h:i:s', time());
       if($rs)
       {//if its sucessfull
-          if($user_type == 1){
-            if(!($payment_status == 'approved')){
-                $error = "Wait for admin approval of your account";
-                session_destroy();
+          if($status == 'active'){
+            if($user_type == 1){
+              if(!($payment_status == 'approved')){
+                  $error = "Wait for admin approval of your account";
+                  session_destroy();
+              } else {
+                  header("location:admin-dashboard.php");
+              }
             } else {
-                header("location:admin-dashboard.php");
+              header("location: ../super_admin/dashboard.php");
             }
           } else {
-            header("location: ../super_admin/dashboard.php");
+            $error = "Access Denied. Your account has been deactivated";
           }
       }
       else

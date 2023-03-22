@@ -47,6 +47,7 @@
                     <th>Contact</th>
                     <th>Address</th>
                     <th>Business Permit</th>
+                    <th>Driver's License</th>
                     <th>Email</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -72,6 +73,11 @@
                         <a href="../uploads/business_permits/<?php echo $row->user_business_permit ?>" class="btn btn-primary btn-sm" target="_blank">View Business Permit</a>
                       <?php endif; ?>
                     </td>
+                    <td>
+                      <?php if($row->drivers_license): ?>
+                        <a href="../uploads/drivers_license/<?php echo $row->drivers_license ?>" class="btn btn-primary btn-sm" target="_blank">View Driver's License</a>
+                      <?php endif; ?>
+                    </td>
                     <td><?php echo $row->a_email;?></td>
                     <td><?php echo $row->payment_status ? $row->payment_status : 'Pending';?></td>
                     <td>
@@ -84,8 +90,11 @@
                         <?php endif; ?>
                       <a href="admin-manage-user-payment.php?a_id=<?php echo $row->a_id;?>" class="badge badge-primary"><i class="fa fa-check"></i> Payments</a>
                       
-                      <?php if($row->payment_status == 'approved'): ?>
-                        <a href="admin-manage-user.php?a_id=<?php echo $row->a_id;?>" class="badge badge-danger"><i class="fa fa-power-off"></i> Deactivate</a>
+                      <?php if($row->status == 'active'): ?>
+                        <a href="admin-manage-user-status.php?a_id=<?php echo $row->a_id;?>&status=deactivated" class="badge badge-danger"><i class="fa fa-power-off"></i> Deactivate</a>
+                      
+                      <?php else: ?>
+                        <a href="admin-manage-user-status.php?a_id=<?php echo $row->a_id;?>&status=active" class="badge badge-success"><i class="fa fa-power-on"></i> Activate</a>
                       <?php endif; ?>
                       <?php endif; ?>
                     </td>

@@ -5,23 +5,28 @@
   check_login();
   $aid=$_SESSION['a_id'];
   //Add USer
-  if(isset($_POST['change_pwd']))
+  if(isset($_POST['update_profile']))
+  {
+    $aid=$_SESSION['a_id'];
+    $a_name=$_POST['a_name'];
+    $address=$_POST['address'];
+    $gcash_num=$_POST['gcash_num'];
+    $bpi_account=$_POST['bpi_account'];
+    // $u_pwd=$_POST['u_pwd'];
+    $query="update tms_admin set a_name=?, address=?, gcash_num=?, bpi_account=? where a_id=?";
+    $stmt = $mysqli->prepare($query);
+    $rc=$stmt->bind_param('ssssi', $a_name, $address, $gcash_num, $bpi_account, $aid);
+    $stmt->execute();
+    
+    if($stmt)
     {
-
-            $a_pwd=$_POST['a_pwd'];//update password
-            $query=" UPDATE tms_admin SET a_pwd = ? WHERE a_id = ?";
-            $stmt = $mysqli->prepare($query);
-            $rc=$stmt->bind_param('si', $a_pwd, $aid);
-            $stmt->execute();
-                if($stmt)
-                {
-                    $succ = "Password Changed";
-                }
-                else 
-                {
-                    $err = "Please Try Again Later";
-                }
-            }
+        $succ = "Profile Updated";
+    }
+    else 
+    {
+        $err = "Please Try Again Later";
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,7 +62,7 @@
         <script>
                     setTimeout(function () 
                     { 
-                        swal("Failed!","<?php echo $err;?>!","Failed");
+                        swal("Failed!","<?php echo $err;?>!","error");
                     },
                         100);
         </script>
@@ -72,31 +77,49 @@
           <li class="breadcrumb-item active">My Profile</li>
         </ol>
         <hr>
-        <div class="card col-md-12">
-        <!-- <img src="../vendor/img/services_banner.jpg" class="card-img-top" alt="..."> -->
-        <div class="card-body">
         <div class="card">
-        <h2>My Profile</h2>
-            <div class="card-body">
-               
-                <form method ="post">                    
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Old Password</label>
-                        <input type="password" name="" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">New Password</label>
-                        <input type="password" name="a_pwd" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Confirm New Password</label>
-                        <input type="password" class="form-control" name="" required>
-                    </div>
-                    <button type="submit" name="change_pwd" class="btn btn-success">Submit</button>
-                </form>
-            </div>
+        <!-- <img src="../vendor/img/services_banner.jpg" class="card-img-top" alt="..."> -->
+        
+        <div class="card-header"> 
+          <h2>My Profile</h2>
         </div>
-        </div>
+        <div class="card-body">
+            <!--Add User Form-->
+            <?php
+              $ret="select * from tms_admin where a_id=?";
+              $stmt= $mysqli->prepare($ret) ;
+              $stmt->bind_param('i',$aid);
+              $stmt->execute() ;//ok
+              $res=$stmt->get_result();
+              //$cnt=1;
+              while($row=$res->fetch_object()):
+          ?>
+            <form method ="POST"> 
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Full Name</label>
+                  <input type="text" value="<?php echo $row->a_name;?>" required class="form-control" id="exampleInputEmail1" name="a_name">
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Email Address</label>
+                  <input type="text" class="form-control" value="<?php echo $row->a_email;?>" id="exampleInputEmail1" name="a_email" readonly>
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Address</label>
+                  <input type="text" class="form-control" value="<?php echo $row->address;?>" id="exampleInputEmail1" name="address">
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">GCash Number</label>
+                  <input type="text" class="form-control" value="<?php echo $row->gcash_num;?>" id="exampleInputEmail1" name="gcash_num">
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">BPI Account Number</label>
+                  <input type="text" class="form-control" value="<?php echo $row->bpi_account;?>" id="exampleInputEmail1" name="bpi_account">
+              </div>
+              <button type="submit" name="update_profile" class="btn btn-outline-success">Update Profile </button>
+            </form>
+            <!-- End Form-->
+        <?php endwhile; ?>
+              </div>
         </div>
       </div>      
       <hr>
@@ -117,7 +140,23 @@
   </a>
 
   <!-- Logout Modal-->
-  <?php include('logout-modal.php'); ?>
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-danger" href="admin-logout.php">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -139,6 +178,27 @@
   <script src="vendor/js/demo/chart-area-demo.js"></script>
  <!--INject Sweet alert js-->
  <script src="vendor/js/swal.js"></script>
+
+<script>
+ function checkPassword(){
+   let pass1 = $("#pass1").val();
+   let pass2 = $("#pass2").val();
+   let confirmPassResult = $("#confirmPassResult");
+   let changePassBtn = $("#changePassBtn");
+
+   if(pass1 && pass2){
+    if(pass1 === pass2){
+      confirmPassResult.html("<b class='text-success'><i class='fa fa-check-circle'></i> Password matched.</b>");
+      changePassBtn.removeAttr("disabled");
+    } else {
+      confirmPassResult.html("<b class='text-danger'><i class='fa fa-times-circle'></i> Password do not match</b>");
+      changePassBtn.attr("disabled", true);
+    }
+   } else {
+    confirmPassResult.html("");
+   }
+ }
+</script>
 
 </body>
 
